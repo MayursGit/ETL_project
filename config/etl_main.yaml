@@ -1,9 +1,10 @@
 dev:
+  root_dir: "/Workspace/Users/mayur10594@gmail.com/ETL_project/"
   incoming_path: "/Volumes/workspace/default/incoming/"
   bronze_path: "/Volumes/workspace/default/bronze/"
   silver_path: "/Volumes/workspace/default/silver/"
   gold_path: "/Volumes/workspace/default/gold/"
-  processed_path: "/Workspace/Users/mayur10594@gmail.com/ETL_project/processed"
+  processed_path: "/Volumes/workspace/default/incoming/"
   db_name: "dev_db"
 
 test:

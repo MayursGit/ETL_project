@@ -11,6 +11,8 @@ import pkgutil
 sys.path.append("/Workspace/Users/mayur10594@gmail.com/ETL_project")
 import schemas
 
+root_dir='/Workspace/Users/mayur10594@gmail.com/ETL_project/'
+
 def load_config(path: str, env: str) -> dict:
     """
     Load configuration from a YAML file and extract settings for a specific environment.
@@ -185,6 +187,7 @@ def run_scd_type2(spark, df_source, target_table_path, config_path):
     # Load target delta table
     targetDelta = DeltaTable.forName(spark, target_table_path)
     df_target = targetDelta.toDF()
+    df_target = df_target.filter(col(col_active) != "D")
 
     # Compute hash_diff in source and target
     df_source_hashed = df_source.withColumn(
@@ -253,8 +256,12 @@ def run_scd_type2(spark, df_source, target_table_path, config_path):
     # Build insert/update value maps dynamically
     all_business_cols = hash_cols + keys
     update_values = {c: f"s.{c}" for c in all_business_cols} | {
-        col_update_date: current_date(),
-        col_update_user: lit(update_user_val),
+        col_create_date: current_date(),
+        col_create_user: lit(create_user_val),
+        col_create_process: lit('UserExtract'),
+        col_update_date: lit(None).cast("date"),
+        col_update_user: lit(None),
+        col_update_process: lit(None),
         col_start_date: current_timestamp(),
         col_end_date: lit(None),
         col_active: lit(active_val)
@@ -262,8 +269,10 @@ def run_scd_type2(spark, df_source, target_table_path, config_path):
     insert_values = {c: f"s.{c}" for c in all_business_cols} | {
         col_create_date: current_timestamp(),
         col_create_user: lit(create_user_val),
+        col_create_process: lit('UserExtract'),
         col_update_date: lit(None).cast("date"),
         col_update_user: lit(None),
+        col_update_process: lit(None),
         col_start_date: current_timestamp(),
         col_end_date: lit(None),
         col_active: lit(active_val)
@@ -277,7 +286,10 @@ def run_scd_type2(spark, df_source, target_table_path, config_path):
             condition=(col("s.merge_key").isin("delete", "soft_delete")),
             set={
                 col_active: lit(inactive_val),
-                col_end_date: current_timestamp()
+                col_end_date: current_timestamp(),
+                col_update_date: current_timestamp(),
+                col_update_user: lit(update_user_val),
+                col_update_process: lit('UserExtract-SCD')
             }
         )
         .whenNotMatchedInsert(

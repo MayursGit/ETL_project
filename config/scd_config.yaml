@@ -19,6 +19,7 @@ hash_columns:
   - TotalCreditLimit
   - NumOfCards
   - BatchId
+  # - ActiveStatus
   # - current_age
   # - retirement_age
   # - birth_year
