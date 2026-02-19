@@ -1,0 +1,22 @@
+
+bundle:
+  name: Data_DAB
+
+resources:
+  #put your resources here
+
+permissions:
+  - group_name: de_group
+    level: CAN_MANAGE
+
+targets:
+  dev:
+    mode: development
+    default: true
+    workspace:
+      host: https://dbc-0edfa32f-04b9.cloud.databricks.com/browse/folders/workspace?o=3435589456319866
+
+  qa:
+    default: false 
+    workspace:
+      host: https://dbc-0edfa32f-04b9.cloud.databricks.com/browse/folders/workspace?o=3435589456319866
