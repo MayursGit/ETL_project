@@ -19,9 +19,17 @@ jobs:
         with:
           python-version: '3.10'
 
+      # - name: Install Databricks CLI
+      #   run: |
+      #     pip install databricks-cli
+      # ✅ Install NEW Databricks CLI
       - name: Install Databricks CLI
         run: |
-          pip install databricks-cli
+          curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
+
+      # ✅ Verify CLI
+      - name: Check CLI Version
+        run: databricks version
 
       - name: Validate Bundle
         run: databricks bundle validate
