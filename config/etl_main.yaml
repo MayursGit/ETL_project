@@ -4,7 +4,7 @@ dev:
   bronze_path: "/Volumes/workspace/default/bronze/"
   silver_path: "/Volumes/workspace/default/silver/"
   gold_path: "/Volumes/workspace/default/gold/"
-  processed_path: "/Volumes/workspace/default/incoming/"
+  processed_path: "/Volumes/workspace/default/processed/"
   db_name: "dev_db"
 
 test:
