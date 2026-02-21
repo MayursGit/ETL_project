@@ -1,10 +1,10 @@
 resources:
   jobs:
     ETL_load:
-      name: ETL_load
+      name: ETL_load_2
 
       tasks:
-        - task_key: etl_load
+        - task_key: etl_load_2
 
           notebook_task:
             notebook_path: ../../bin/etlload.ipynb 
