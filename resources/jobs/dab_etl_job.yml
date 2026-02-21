@@ -1,0 +1,33 @@
+resources:
+  jobs:
+    ETL_load:
+      name: ETL_load
+
+      tasks:
+        - task_key: etl_load
+
+          notebook_task:
+            notebook_path: ../../bin/etlload_etl.ipynb
+            source: WORKSPACE
+
+          environment_key: default
+
+      environments:
+        - environment_key: default
+          spec:
+            environment_version: "1"
+
+      queue:
+        enabled: true
+
+      parameters:
+        - name: clientId
+          default: y01
+        - name: env
+          default: dev
+        - name: fileList
+          default: cards_data.csv,users_data.csv,transactions_data.csv
+        - name: taxYear
+          default: "2024"
+
+      performance_target: PERFORMANCE_OPTIMIZED
